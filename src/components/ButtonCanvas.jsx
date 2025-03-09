@@ -1,5 +1,19 @@
 import { useEffect, useRef } from "react";
 import * as PIXI from "pixi.js";
+import click1 from "../assets/click1.mp3";
+import click2 from "../assets/click2.mp3";
+import click3 from "../assets/click3.mp3";
+import click4 from "../assets/click4.mp3";
+
+const clickSounds = [click1, click2, click3, click4];
+
+const playClickSound = () => {
+  const randomSfx = clickSounds[Math.floor(Math.random() * clickSounds.length)];
+  const sound = new Audio(randomSfx);
+  sound.playbackRate = 1 + Math.random() * 0.3;
+  sound.volume = 0.05 + Math.random() * 0.02;
+  sound.play();
+};
 
 const ButtonCanvas = ({ onClick }) => {
   const canvasRef = useRef(null);
@@ -34,6 +48,7 @@ const ButtonCanvas = ({ onClick }) => {
   }
 
   function handleClick(sprite) {
+    playClickSound();
     const clickedScale = 1.1;
     sprite.scale._x = clickedScale;
     sprite.scale._y = clickedScale;
