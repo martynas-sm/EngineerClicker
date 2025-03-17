@@ -56,6 +56,14 @@ const ButtonCanvas = ({ onClick }) => {
     onClick();
   }
 
+  function handleResize() {
+    if (!appRef.current) return;
+    if (!spriteRef.current) return;
+    const app = appRef.current;
+    const sprite = spriteRef.current;
+    sprite.position.set(app.screen.width / 2, app.screen.height / 2);
+  }
+
   useEffect(() => {
     // TODO: lots of code for demo, delete later
     if (!canvasRef.current) return;
@@ -64,7 +72,7 @@ const ButtonCanvas = ({ onClick }) => {
       app.stage.sortableChildren = true;
       appRef.current = app;
 
-      await app.init({ backgroundAlpha: 0 });
+      await app.init({ resizeTo: canvasRef.current, backgroundAlpha: 0 });
       canvasRef.current.appendChild(app.canvas);
 
       const texture = await PIXI.Assets.load(
@@ -80,6 +88,7 @@ const ButtonCanvas = ({ onClick }) => {
       sprite.on("pointerdown", () => {
         handleClick(sprite);
       });
+      new ResizeObserver(handleResize).observe(canvasRef.current);
 
       app.stage.addChild(sprite);
       app.ticker.add((time) => {
@@ -106,7 +115,13 @@ const ButtonCanvas = ({ onClick }) => {
     };
   }, []);
 
-  return <div ref={canvasRef}></div>;
+  return (
+    <div
+      onResize={handleResize}
+      style={{ width: "100%", height: "100%" }}
+      ref={canvasRef}
+    ></div>
+  );
 };
 
 export default ButtonCanvas;
