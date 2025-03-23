@@ -118,7 +118,6 @@ const ButtonCanvas = ({ onClick }) => {
   return (
     <div
       onResize={handleResize}
-      style={{ width: "100%", height: "100%" }}
       ref={canvasRef}
     ></div>
   );
