@@ -4,12 +4,12 @@ export class ResourceManager {
 
   constructor(game) {
     this.game = game;
-    this.loadData(); // Load saved data when the game starts
+    this.loadData();
   }
 
   addEuros(delta) {
     this.euro += delta;
-    this.saveData(); // Save data whenever euros are updated
+    this.saveData();
     this.game.notifyUpdate();
   }
 
@@ -17,14 +17,14 @@ export class ResourceManager {
     const data = {
       euro: this.euro,
     };
-    localStorage.setItem('gameData', JSON.stringify(data)); // Save data to localStorage
+    localStorage.setItem('ResourceMangerData', JSON.stringify(data));
   }
 
   loadData() {
-    const savedData = localStorage.getItem('gameData');
+    const savedData = localStorage.getItem('ResourceMangerData');
     if (savedData) {
       const data = JSON.parse(savedData);
-      this.euro = data.euro || 0; // Load euro value or default to 0
+      this.euro = data.euro || 0;
     }
   }
 }
